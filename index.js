@@ -10,16 +10,15 @@ const server = http.createServer((req, res) => {
     res.setHeader('Content-Type', 'text/plain');
     try{
         axios.get('https://api.github.com/repos/nodejs/node').then(response =>{
-            const {info} = response;
-            const {stargazers_count, forks_count, open_issues_count} = {info};
-            res.end(`Stargazers: ${stargazers_count}\nForks: ${forks_count}\nOpen Issues: ${open_issues_count}`);
+                const {data} = response;
+                const { stargazers_count, forks_count, open_issues_count } = data;
+                res.end(`Stargazers: ${stargazers_count}\nForks: ${forks_count}\nOpen Issues: ${open_issues_count}`);
         });
     } catch(e) {
         res.statusCode = 500;
-        console.log('Internal error issued.\n');
+        res.end('Internal error issued.\n');
     }
 
-    res.end('Hello World');
 });
 
 server.listen(port, hostname, () => {
